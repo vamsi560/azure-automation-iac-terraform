@@ -1,0 +1,10 @@
+environment    = "dev"
+region         = "eastus"
+resource_group_name = "chatpdf"
+webapp_name    = "chatpdf"
+key_vault_name = "certsigning"
+tags           = {}
+app_service_plan_sku = "B1"
+runtime_stack  = "dotnet"
+private_endpoint_enabled = false
+identity_type  = "None"
