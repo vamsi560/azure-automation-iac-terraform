@@ -1,7 +1,7 @@
 environment    = "dev"
 region         = "eastus"
-resource_group_name = "chatpdf"
-webapp_name    = "chatpdf"
+resource_group_name = "chatpdf-rg-2025"
+webapp_name    = "chatpdf-2025"
 key_vault_name = "certsigning"
 tags           = {}
 app_service_plan_sku = "B1"

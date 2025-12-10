@@ -23,12 +23,13 @@ variable "region" {
 variable "resource_group_name" {
   description = "Resource group name"
   type        = string
-  default     = "chatpdf"
+  default     = "chatpdf-rg-2025"
 }
 
 variable "webapp_name" {
   description = "Web App name"
   type        = string
+  default     = "chatpdf-2025"
 }
 
 variable "key_vault_name" {
