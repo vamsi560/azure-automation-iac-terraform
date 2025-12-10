@@ -43,7 +43,7 @@ jobs:
 
       - name: Terraform Import Resource Group (if exists)
         run: |
-          RG_ID="/subscriptions/$ARM_SUBSCRIPTION_ID/resourceGroups/$RG_NAME"
+          RG_ID="/subscriptions/$ARM_SUBSCRIPTION_ID/resourceGroups/chatpdf"
           terraform import -allow-missing-config module.webapp.azurerm_resource_group.webapp_rg "$RG_ID" || echo "Resource group not found or already imported."
 
       - name: Terraform Plan
