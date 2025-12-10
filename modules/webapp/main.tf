@@ -18,21 +18,20 @@ resource "azurerm_resource_group" "webapp_rg" {
   tags     = var.tags
 }
 
-resource "azurerm_app_service_plan" "webapp_plan" {
+resource "azurerm_service_plan" "webapp_plan" {
   name                = "${var.webapp_name}-plan"
   location            = azurerm_resource_group.webapp_rg.location
   resource_group_name = azurerm_resource_group.webapp_rg.name
-  sku {
-    tier = var.app_service_plan_sku == "B1" ? "Basic" : var.app_service_plan_sku == "S1" ? "Standard" : "PremiumV2"
-    size = var.app_service_plan_sku
-  }
+  sku_name            = var.app_service_plan_sku
+  os_type             = "Linux"
+  tags                = var.tags
 }
 
 resource "azurerm_linux_web_app" "webapp" {
   name                = var.webapp_name
   location            = azurerm_resource_group.webapp_rg.location
   resource_group_name = azurerm_resource_group.webapp_rg.name
-  service_plan_id     = azurerm_app_service_plan.webapp_plan.id
+  service_plan_id     = azurerm_service_plan.webapp_plan.id
   tags                = var.tags
 
   site_config {}

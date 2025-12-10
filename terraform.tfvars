@@ -7,4 +7,4 @@ tags           = {}
 app_service_plan_sku = "B1"
 runtime_stack  = "dotnet"
 private_endpoint_enabled = false
-identity_type  = "None"
+identity_type  = "SystemAssigned"
