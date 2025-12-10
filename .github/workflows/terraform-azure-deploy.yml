@@ -32,8 +32,19 @@ jobs:
           echo "ARM_TENANT_ID=$(az keyvault secret show --vault-name $KV_NAME --name azure-tenant-id --query value -o tsv)" >> $GITHUB_ENV
           echo "ARM_SUBSCRIPTION_ID=$(az keyvault secret show --vault-name $KV_NAME --name azure-subscription-id --query value -o tsv)" >> $GITHUB_ENV
 
+      - name: Parse Resource Group Name
+        id: rgname
+        run: |
+          RG_NAME=$(grep '^resource_group_name' terraform.tfvars | awk -F '"' '{print $2}')
+          echo "RG_NAME=$RG_NAME" >> $GITHUB_ENV
+
       - name: Terraform Init
         run: terraform init
+
+      - name: Terraform Import Resource Group (if exists)
+        run: |
+          RG_ID="/subscriptions/$ARM_SUBSCRIPTION_ID/resourceGroups/$RG_NAME"
+          terraform import -allow-missing-config module.webapp.azurerm_resource_group.webapp_rg "$RG_ID" || echo "Resource group not found or already imported."
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan

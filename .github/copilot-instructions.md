@@ -232,6 +232,11 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Terraform Import Existing Resources
+        run: |
+          RESOURCE_GROUP_NAME=$(grep 'resource_group_name' terraform.tfvars | cut -d '=' -f2 | tr -d ' "')
+          terraform import azurerm_resource_group.example "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$RESOURCE_GROUP_NAME" || true
+
       - name: Terraform Plan
         run: terraform plan -out=tfplan
 
@@ -242,6 +247,21 @@ jobs:
 * Pipeline runs only on **main branch**
 
 ---
+
+## Resource Import Handling (MANDATORY)
+
+- If a required Azure resource (e.g., resource group) already exists, always import it into Terraform state before running `terraform apply`.
+- The CI/CD pipeline must include a step to parse the resource name from `terraform.tfvars` and run the appropriate `terraform import` command before `terraform plan` and `terraform apply`.
+- Example import command for resource group:
+
+```powershell
+terraform import module.webapp.azurerm_resource_group.webapp_rg "/subscriptions/<subscription_id>/resourceGroups/<resource_group_name>"
+```
+
+- If the import fails because the resource does not exist, continue without error.
+
+---
+
 ## COPILOT ENFORCEMENT RULES
 
 -   Always generate LOCAL module paths
