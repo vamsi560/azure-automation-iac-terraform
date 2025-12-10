@@ -37,7 +37,7 @@ jobs:
 
       - name: Terraform Import Resource Group (if exists)
         run: |
-          RG_ID="/subscriptions/$ARM_SUBSCRIPTION_ID/resourceGroups/chatpdf"
+          RG_ID="/subscriptions/$ARM_SUBSCRIPTION_ID/resourceGroups/chatpdf-rg-2025"
           terraform import module.webapp.azurerm_resource_group.webapp_rg "$RG_ID" || echo "Resource group not found or already imported."
 
       - name: Terraform Plan
